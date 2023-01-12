@@ -7,6 +7,9 @@ class Button
 };
 #endif
 
+/**
+ * 
+*/
 class Button2Pin : public Button
 {
 private:
@@ -15,19 +18,23 @@ private:
     int buttonPin;
     int ledPort;
 
-
 public:
+    /**
+     * Button constructor for 2 Pin
+     * @param buttonPin the button power input in GPIO
+     * @param isLock checking wich the button need to be troggle or not
+     */
     Button2Pin(int buttonPin, bool isLock);
     bool switchButtonStatus();
     bool isButtonOn();
-
+    int isButtonOnInt();
 };
 
 class Button3Pin : public Button
 {
-    private:
+private:
     int buttonState = 0;
 
-    public:
+public:
     Button3Pin(int bottonPort, int ledPort, bool isLock);
 };
