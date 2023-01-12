@@ -1,6 +1,6 @@
 #ifndef Button_h
 #define Button_h
-// #include <Arduino.h>
+#include <Arduino.h>
 
 class Button
 {
@@ -10,12 +10,14 @@ class Button
 class Button2Pin : public Button
 {
 private:
-    bool switchState = false;
-    int switchPort;
+    bool isLock = false;
+    int buttonState = 0;
+    int buttonPin;
     int ledPort;
 
+
 public:
-    Button2Pin(int bottonPort, bool isLock);
+    Button2Pin(int buttonPin, bool isLock);
     bool switchButtonStatus();
     bool isButtonOn();
 
@@ -24,7 +26,7 @@ public:
 class Button3Pin : public Button
 {
     private:
-    bool switchState = false;
+    int buttonState = 0;
 
     public:
     Button3Pin(int bottonPort, int ledPort, bool isLock);
