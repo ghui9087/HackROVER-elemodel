@@ -2,9 +2,6 @@
 #define Button_h
 #include <Arduino.h>
 
-#define COUNT_FALLING 0
-#define COUNT_RISING 1
-#define COUNT_BOTH 2
 /**
  * All Type of Button will be list in here
  * If you need it just call the fuction you need
