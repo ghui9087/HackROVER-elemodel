@@ -16,7 +16,6 @@ private:
     bool isLock = false;
     int buttonState = 0;
     int buttonPin;
-    int ledPort;
 
 public:
     /**
@@ -33,8 +32,15 @@ public:
 class Button3Pin : public Button
 {
 private:
+    bool isLock = false;
     int buttonState = 0;
+    int buttonPin;
+    int ledPin;
+    void ledstuts(bool state);
 
 public:
-    Button3Pin(int bottonPort, int ledPort, bool isLock);
+    Button3Pin(int bottonPort, int ledPin, bool isLock);
+    bool switchButtonStatus();
+    bool isButtonOn();
+    int isButtonOnInt();
 };

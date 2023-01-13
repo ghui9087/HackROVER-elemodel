@@ -65,7 +65,7 @@ bool Button2Pin::isButtonOn()
 */
 int Button2Pin::isButtonOnInt()
 {
-    if (isButtonOn)
+    if (isButtonOn())
         return 1;
     return 0;
 }
