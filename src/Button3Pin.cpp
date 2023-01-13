@@ -81,7 +81,7 @@ bool Button3Pin::isButtonOn()
  */
 int Button3Pin::isButtonOnInt()
 {
-    if (isButtonOn)
+    if (isButtonOn())
         return 1;
     return 0;
 }
