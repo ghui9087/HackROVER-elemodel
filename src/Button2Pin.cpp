@@ -1,25 +1,20 @@
 #include "Button.h"
 
-/**
- * Button constructor for 2 Pin
- * @param buttonPin the button power input in GPIO
- * @param isLock checking wich the button need to be troggle or not
-*/
+Button2Pin::Button2Pin()
+{
+}
+
 Button2Pin::Button2Pin(int buttonPin, bool isLock)
 {
     pinMode(buttonPin, INPUT);
+    digitalWrite(buttonPin, HIGH);
     this->buttonPin = buttonPin;
-    this->isLock = isLock;
+    this->isToggle = isLock;
 }
 
-/**
- * switchButtonStatus
- * @paragraph a way to turn on/off button without hit the button
- * @warning if this button is not in Lock mode would not work 
-*/
 bool Button2Pin::switchButtonStatus()
 {
-    if (!isLock)
+    if (!isToggle)
         return false;
     if (buttonState == 1)
     {
@@ -32,40 +27,30 @@ bool Button2Pin::switchButtonStatus()
     return true;
 }
 
-/**
- * isButtonOn
- * @paragraph return the status of button retime
-*/
-bool Button2Pin::isButtonOn()
+bool Button2Pin::buttonStatus()
 {
-    if (!isLock)
-        buttonState = digitalRead(buttonPin);
-    else
-    {
+    int digitalPinRead = digitalRead(buttonPin);
+    if (!isToggle)
+        buttonState = digitalPinRead;
+    else if (digitalPinRead == 0)
         if (buttonState == 1)
-        {
-            if (digitalRead(buttonPin) == 1)
-                buttonState = 0;
-        }
+            buttonState = 0;
         else
-        {
-            if (digitalRead(buttonPin) == 1)
-                buttonState = 1;
-        }
-    }
+            buttonState = 1;
 
-    if (buttonState == 1)
+    if (buttonState == 0)
         return true;
     return false;
 }
 
-/**
- * @paragraph return button status retime 
- * @paragraph 1 is buttom on. 0 is button off
-*/
-int Button2Pin::isButtonOnInt()
+int Button2Pin::buttonStatusInt()
 {
-    if (isButtonOn())
+    if (buttonStatus())
         return 1;
     return 0;
+}
+
+int Button2Pin::buttonStatusRaw()
+{
+    return digitalRead(buttonPin);
 }
