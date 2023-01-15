@@ -31,6 +31,11 @@ int Button3Pin::buttonStatusRaw()
     return buttonFor3Pin.buttonStatusRaw();
 }
 
+int Button3Pin::buttonPinID()
+{
+    return buttonPin;
+}
+
 /**
  * Private method just switch the led on/off
  */

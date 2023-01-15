@@ -8,7 +8,7 @@ protected:
     bool isOn = false;
     int ledPin;
 
-}
+};
 
 class led2Pin : public LED
 {

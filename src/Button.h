@@ -61,6 +61,11 @@ public:
      *  return the curent button status without thinking
      */
     int buttonStatusRaw();
+
+    /**
+     * 
+    */
+    int buttonPinID();
 };
 
 class Button3Pin : public Button
@@ -105,4 +110,6 @@ public:
      *  return the curent button status without thinking
      */
     int buttonStatusRaw();
+
+    int buttonPinID();
 };
