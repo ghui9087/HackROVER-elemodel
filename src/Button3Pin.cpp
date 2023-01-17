@@ -36,6 +36,11 @@ int Button3Pin::buttonPinID()
     return buttonPin;
 }
 
+void Button3Pin::totalTimeCheck(int count)
+{
+    buttonFor3Pin.totalTimeCheck(count);
+}
+
 /**
  * Private method just switch the led on/off
  */

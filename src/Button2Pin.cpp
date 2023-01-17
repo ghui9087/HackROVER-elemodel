@@ -10,6 +10,7 @@ Button2Pin::Button2Pin(int _buttonPin, bool isLock)
     digitalWrite(buttonPin, HIGH);
     this->buttonPin = _buttonPin;
     this->isToggle = isLock;
+    Serial.begin(9600);
 }
 
 bool Button2Pin::switchButtonStatus()
@@ -31,16 +32,28 @@ bool Button2Pin::buttonStatus()
 {
     int digitalPinRead = digitalRead(buttonPin);
     if (!isToggle)
-        buttonState = (digitalPinRead  == HIGH)? true : false;
-    else if (digitalPinRead == 0)
-        if (buttonState == 1)
-            buttonState = 0;
-        else
-            buttonState = 1;
+    {
+        buttonState = (digitalPinRead == 1) ? true : false;
+        return (buttonState == 1) ? true : false;
+    }
+    if (digitalPinRead == 1)
+    {
+        timeCheck++;
+    }
+    else
+    {
+        timeCheck = 0;
+        buttonState = 0;
+    }
 
-    if (buttonState == 0)
-        return true;
-    return false;
+    if (timeCheck > totalCheck)
+    {
+        buttonState = !buttonState;
+        timeCheck = totalCheck;
+        Serial.println(timeCheck);
+    }
+
+    return (buttonState == 1) ? true : false;
 }
 
 int Button2Pin::buttonStatusInt()
@@ -58,4 +71,9 @@ int Button2Pin::buttonStatusRaw()
 int Button2Pin::buttonPinID()
 {
     return buttonPin;
+}
+
+void Button2Pin::totalTimeCheck(int count)
+{
+    this->totalCheck = count;
 }

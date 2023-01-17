@@ -27,6 +27,10 @@ protected:
  */
 class Button2Pin : public Button
 {
+protected:
+    int timeCheck = 0;
+    int totalCheck = 4;
+    //const int MAXEMPTYCHECK = 4;
 
 public:
     /**
@@ -63,9 +67,16 @@ public:
     int buttonStatusRaw();
 
     /**
-     * 
-    */
+     *
+     */
     int buttonPinID();
+
+    /**
+     * This will need doing it in the setup
+     * using the format count * delay-time 
+     * you get how long do you want the button to be press in ms
+     */
+    void totalTimeCheck(int count);
 };
 
 class Button3Pin : public Button
@@ -79,7 +90,7 @@ private:
     Button2Pin buttonFor3Pin;
 
 public:
-/**
+    /**
      * Empty constructor
      */
     Button3Pin();
@@ -112,4 +123,11 @@ public:
     int buttonStatusRaw();
 
     int buttonPinID();
+
+    /**
+     * This will need doing it in the setup
+     * using the format count * delay-time 
+     * you get how long do you want the button to be press in ms
+     */
+    void totalTimeCheck(int count);
 };
