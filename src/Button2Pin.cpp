@@ -31,7 +31,7 @@ bool Button2Pin::buttonStatus()
 {
     int digitalPinRead = digitalRead(buttonPin);
     if (!isToggle)
-        buttonState = digitalPinRead;
+        buttonState = (digitalPinRead  == HIGH)? true : false;
     else if (digitalPinRead == 0)
         if (buttonState == 1)
             buttonState = 0;
