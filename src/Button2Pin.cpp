@@ -4,11 +4,11 @@ Button2Pin::Button2Pin()
 {
 }
 
-Button2Pin::Button2Pin(int buttonPin, bool isLock)
+Button2Pin::Button2Pin(int _buttonPin, bool isLock)
 {
     pinMode(buttonPin, INPUT);
     digitalWrite(buttonPin, HIGH);
-    this->buttonPin = buttonPin;
+    this->buttonPin = _buttonPin;
     this->isToggle = isLock;
 }
 
@@ -53,4 +53,9 @@ int Button2Pin::buttonStatusInt()
 int Button2Pin::buttonStatusRaw()
 {
     return digitalRead(buttonPin);
+}
+
+int Button2Pin::buttonPinID()
+{
+    return buttonPin;
 }
