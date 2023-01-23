@@ -6,8 +6,7 @@ Button2Pin::Button2Pin()
 
 Button2Pin::Button2Pin(int _buttonPin, bool isLock)
 {
-    pinMode(buttonPin, INPUT);
-    digitalWrite(buttonPin, HIGH);
+    pinMode(buttonPin, INPUT_PULLUP);
     this->buttonPin = _buttonPin;
     this->isToggle = isLock;
     Serial.begin(9600);
@@ -30,30 +29,31 @@ bool Button2Pin::switchButtonStatus()
 
 bool Button2Pin::buttonStatus()
 {
-    int digitalPinRead = digitalRead(buttonPin);
+    loop();
     if (!isToggle)
     {
-        buttonState = (digitalPinRead == 1) ? true : false;
-        return (buttonState == 1) ? true : false;
+        return lastSteadyState;
     }
-    if (digitalPinRead == 1)
+    if(lastSteadyState == 1)
     {
-        timeCheck++;
+        isButtonKEEP == false;
     }
-    else
+    if(isButtonKEEP){
+        return buttonState;
+    }
+    if (lastSteadyState == 0 && !isButtonKEEP)
     {
-        timeCheck = 0;
-        buttonState = 0;
+        isButtonKEEP == true;
+        if(buttonState == true){
+            buttonState == false;
+            return buttonState;
+        }
+        if(buttonState == false){
+            buttonState == true;
+            return buttonState;
+        }
     }
-
-    if (timeCheck > totalCheck)
-    {
-        buttonState = !buttonState;
-        timeCheck = totalCheck;
-        Serial.println(timeCheck);
-    }
-
-    return (buttonState == 1) ? true : false;
+    
 }
 
 int Button2Pin::buttonStatusInt()
@@ -73,7 +73,28 @@ int Button2Pin::buttonPinID()
     return buttonPin;
 }
 
-void Button2Pin::totalTimeCheck(int count)
+void Button2Pin::loop(void)
 {
-    this->totalCheck = count;
+    int currentState = digitalRead(buttonPin);
+    unsigned long currentTime = millis();
+
+    if (currentState != lastFlickerableState)
+    {
+
+        lastDebounceTime = currentTime;
+
+        lastFlickerableState = currentState;
+    }
+
+    if ((currentTime - lastDebounceTime) >= debounceTime)
+    {
+        previousSteadyState = lastSteadyState;
+        lastSteadyState = currentState;
+    }
+
+    if (previousSteadyState != lastSteadyState)
+    {
+        if (previousSteadyState == HIGH && lastSteadyState == LOW)
+            count++;
+    }
 }

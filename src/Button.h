@@ -12,6 +12,7 @@ class Button
 {
 protected:
     bool isToggle = false;
+    bool isButtonKEEP = false;
     int buttonState = 0;
     int buttonPin;
     int ledPin;
@@ -28,9 +29,15 @@ protected:
 class Button2Pin : public Button
 {
 protected:
-    int timeCheck = 0;
-    int totalCheck = 4;
-    //const int MAXEMPTYCHECK = 4;
+    void loop(void);
+
+    int previousSteadyState;  // the previous steady state from the input pin, used to detect pressed and released event
+    int lastSteadyState;      // the last steady state from the input pin
+    int lastFlickerableState; // the last flickerable state from the input pin
+    unsigned long count;
+    unsigned long debounceTime;
+    unsigned long lastDebounceTime;
+    // const int MAXEMPTYCHECK = 4;
 
 public:
     /**
@@ -70,13 +77,6 @@ public:
      *
      */
     int buttonPinID();
-
-    /**
-     * This will need doing it in the setup
-     * using the format count * delay-time 
-     * you get how long do you want the button to be press in ms
-     */
-    void totalTimeCheck(int count);
 };
 
 class Button3Pin : public Button
@@ -124,10 +124,33 @@ public:
 
     int buttonPinID();
 
-    /**
-     * This will need doing it in the setup
-     * using the format count * delay-time 
-     * you get how long do you want the button to be press in ms
-     */
-    void totalTimeCheck(int count);
+    
+};
+
+class NewButton2Pin : public Button
+{
+	private:
+		int btnPin;
+		unsigned long debounceTime;
+		unsigned long count;
+		int countMode;
+
+		int previousSteadyState;  // the previous steady state from the input pin, used to detect pressed and released event
+		int lastSteadyState;      // the last steady state from the input pin
+		int lastFlickerableState; // the last flickerable state from the input pin
+
+		unsigned long lastDebounceTime; // the last time the output pin was toggled
+
+	public:
+		NewButton2Pin(int pin);
+		NewButton2Pin(int pin, int mode);
+		void setDebounceTime(unsigned long time);
+		int getState(void);
+		int getStateRaw(void);
+		bool isPressed(void);
+		bool isReleased(void);
+		void setCountMode(int mode);
+		unsigned long getCount(void);
+		void resetCount(void);
+		void loop(void);
 };
