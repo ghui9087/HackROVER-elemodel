@@ -1,12 +1,13 @@
 #include <Button.h>
 
-NewButton2Pin::NewButton2Pin(int pin) : NewButton2Pin(pin, INPUT_PULLUP){};
+Button2Pin::Button2Pin(int pin, bool istrogle) : Button2Pin(pin) { this->isToggle = istrogle; };
 
-NewButton2Pin::NewButton2Pin(int pin, int mode)
+Button2Pin::Button2Pin(int pin) : Button2Pin(pin, INPUT_PULLUP){};
+
+Button2Pin::Button2Pin(int pin, int mode)
 {
 	btnPin = pin;
 	debounceTime = 0;
-	count = 0;
 
 	pinMode(btnPin, mode);
 
@@ -17,18 +18,38 @@ NewButton2Pin::NewButton2Pin(int pin, int mode)
 	lastDebounceTime = 0;
 }
 
-int NewButton2Pin::getState(void)
+int Button2Pin::getState(void)
 {
 	loop();
-	return lastSteadyState;
+	if (!isToggle)
+	{
+		return lastSteadyState;
+	}
+	if (isButtonKEEP)
+	{
+		if (lastSteadyState == false)
+		{
+			return buttonState;
+		}
+		if (lastSteadyState == true)
+		{
+			isButtonKEEP == false;
+			return buttonState;
+		}
+	}
+	if (lastSteadyState == false)
+	{
+		isButtonKEEP == true;
+		return !buttonState;
+	}
 }
 
-int NewButton2Pin::getStateRaw(void)
+int Button2Pin::getStateRaw(void)
 {
 	return digitalRead(btnPin);
 }
 
-bool NewButton2Pin::isPressed(void)
+bool Button2Pin::isPressed(void)
 {
 	if (previousSteadyState == HIGH && lastSteadyState == LOW)
 		return true;
@@ -36,7 +57,7 @@ bool NewButton2Pin::isPressed(void)
 		return false;
 }
 
-bool NewButton2Pin::isReleased(void)
+bool Button2Pin::isReleased(void)
 {
 	if (previousSteadyState == LOW && lastSteadyState == HIGH)
 		return true;
@@ -44,7 +65,7 @@ bool NewButton2Pin::isReleased(void)
 		return false;
 }
 
-void NewButton2Pin::loop(void)
+void Button2Pin::loop(void)
 {
 	int currentState = digitalRead(btnPin);
 	unsigned long currentTime = millis();
@@ -59,11 +80,5 @@ void NewButton2Pin::loop(void)
 	{
 		previousSteadyState = lastSteadyState;
 		lastSteadyState = currentState;
-	}
-
-	if (previousSteadyState != lastSteadyState)
-	{
-		if (previousSteadyState == HIGH && lastSteadyState == LOW)
-			count++;
 	}
 }
