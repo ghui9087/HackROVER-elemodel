@@ -9,6 +9,11 @@
  * @example Button3Pin name(buttonPin, ledPin, isToggle);
  */
 
+/**
+ *  Different state that button can have
+ * @param PRESS press down turn on unpress not turn on
+ * @param TOGGLE press and let go and it’ll stay that state
+ */
 enum buttonState
 {
     PRESS = 0,
@@ -18,8 +23,15 @@ enum buttonState
 class Button
 {
 protected:
-    Button(int pin = 0) : buttonPin(pin), buttonType(PRESS){};
-    Button(int pin = 0, buttonState type = PRESS) : buttonPin(pin), buttonType(type){};
+    // Constueder
+    /**
+     * Base constudent 
+     * 
+     */
+    Button(int pin = 0);
+    Button(int pin = 0, buttonState type = PRESS);
+
+    bool switchButtonState();
 
     bool getButtonState();
     bool getButtonStateRaw();
@@ -27,7 +39,7 @@ protected:
 
 private:
     bool isButtonKEEP = false;
-    int currentState = 0;
+    bool currentState = false;
     int buttonPin;
     buttonState buttonType;
 };
