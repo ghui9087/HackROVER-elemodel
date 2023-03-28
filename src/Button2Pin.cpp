@@ -1,22 +1,8 @@
 #include <Button.h>
 
-Button2Pin::Button2Pin(int pin, bool istrogle) : Button2Pin(pin) { this->isToggle = istrogle; };
+Button2Pin::Button2Pin(int pin, buttonState state) : Button2Pin(pin) { this->isToggle = istrogle; };
 
 Button2Pin::Button2Pin(int pin) : Button2Pin(pin, INPUT_PULLUP){};
-
-Button2Pin::Button2Pin(int pin, int mode)
-{
-	btnPin = pin;
-	debounceTime = 0;
-
-	pinMode(btnPin, mode);
-
-	previousSteadyState = digitalRead(btnPin);
-	lastSteadyState = previousSteadyState;
-	lastFlickerableState = previousSteadyState;
-
-	lastDebounceTime = 0;
-}
 
 int Button2Pin::getState(void)
 {
@@ -44,8 +30,14 @@ int Button2Pin::getState(void)
 	}
 }
 
+/**
+ * getStateRaw 
+ * Reading the data from the data so you can read the data from button on-time
+ *
+ */
 int Button2Pin::getStateRaw(void)
 {
+
 	return digitalRead(btnPin);
 }
 
